@@ -55,7 +55,8 @@ asr:
   model_dir: ''
   hub: hf
   language: zh
-  use_quant_onnx: true
+  # 内存受限环境：关闭量化 ONNX 导出，直接走 PyTorch 推理（否则导出量化时易 OOM 打挂服务）
+  use_quant_onnx: false
   onnx_intra_op_threads: 4
   text_filter:
     min_text_len: 2

@@ -5,7 +5,8 @@ websockets==14.2
 PyYAML==6.0.2
 numpy==1.26.4
 opuslib_next==1.1.5
-webrtcvad==2.0.10
+# Windows / Python>=3.11 无 webrtcvad 预编译 wheel，源码编译需 MSVC；改用带预编译 wheel 的 fork（导入名仍为 webrtcvad）
+webrtcvad-wheels==2.0.14
 setuptools<81
 ml_dtypes>=0.5.0
 librosa>=0.10.0

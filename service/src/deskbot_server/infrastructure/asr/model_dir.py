@@ -37,7 +37,11 @@ def ensure_asr_quant_onnx(model_dir: str | Path) -> Path | None:
         logger.warning("[ASR] 缺少 funasr-onnx，无法导出 model_quant.onnx: %s", exc)
         return None
     logger.info("[ASR] 导出量化 ONNX → %s", quant)
-    SenseVoiceSmall(str(root.resolve()), batch_size=1, quantize=True)
+    try:
+        SenseVoiceSmall(str(root.resolve()), batch_size=1, quantize=True)
+    except Exception as exc:  # 内存不足 / 导出失败等：回退到 PyTorch model.pt
+        logger.error("[ASR] 导出 model_quant.onnx 失败，将回退 PyTorch 推理: %s", exc)
+        return None
     if has_quant_onnx(root):
         return quant
     logger.error("[ASR] 导出后仍未找到 %s", quant)
